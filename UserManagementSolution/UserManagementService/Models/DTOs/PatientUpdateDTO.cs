@@ -1,6 +1,7 @@
 ﻿namespace UserManagementService.Models.DTOs
 {
-    public class User
+    public class PatientUpdateDTO
     {
+
     }
 }

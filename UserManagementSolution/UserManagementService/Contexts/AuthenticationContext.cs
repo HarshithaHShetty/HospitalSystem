@@ -3,13 +3,12 @@ using UserManagementService.Models;
 
 namespace UserManagementService.Contexts
 {
-    public class UserContext:DbContext
+    public class AuthenticationContext:DbContext
     {
-        public UserContext(DbContextOptions<UserContext> options) : base(options)
+        public AuthenticationContext(DbContextOptions<AuthenticationContext> options) : base(options)
         {
         }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Patient> Patients { get; set; }
     }
