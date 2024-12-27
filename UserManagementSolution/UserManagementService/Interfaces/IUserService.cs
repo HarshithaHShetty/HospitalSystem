@@ -6,8 +6,8 @@ namespace UserManagementService.Interfaces
     {
        
             public Task<UserResponseDTO> Login(LoginRequestDTO loginRequest);
-            public Task<UserResponseDTO> Register(UserRegisterRequestDTO userRequest);
-        public Task<UserUpdateDTO> PatientUpdate(UserUpdateDTO updateRequest);
+            public Task<UserResponseDTO> RegisterPatient(PatientRegisterRequestDTO userRequest);
+     
 
 
     }

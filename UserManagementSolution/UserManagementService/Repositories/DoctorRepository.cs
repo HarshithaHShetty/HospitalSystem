@@ -1,6 +1,37 @@
-﻿namespace UserManagementService.Repositories
+﻿using Microsoft.EntityFrameworkCore;
+using UserManagementService.Contexts;
+using UserManagementService.Models;
+
+namespace UserManagementService.Repositories
 {
-    public class DoctorRepository
+    public class DoctorRepository : Repository<Doctor, int>
     {
+
+
+        public DoctorRepository(AuthenticationContext Context)
+        {
+            _context = Context;
+        }
+        public async override Task<ICollection<Doctor>> Get()
+        {
+            if (_context.Doctors.Count() == 0)
+            {
+                throw new Exception("No entities found");
+            }
+            return await _context.Doctors.ToListAsync();
+        }
+
+        public async override Task<Doctor> Get(int key)
+        {
+            var doctor = _context.Doctors.Find(key);
+            if (doctor == null)
+            {
+                throw new Exception("Entity not found");
+            }
+            return doctor;
+        }
+
+
     }
+
 }

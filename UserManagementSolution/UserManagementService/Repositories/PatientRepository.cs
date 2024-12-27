@@ -1,63 +1,36 @@
-﻿using UserManagementService.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using UserManagementService.Contexts;
+using UserManagementService.Interfaces;
 using UserManagementService.Models;
 
 namespace UserManagementService.Repositories
 {
-    public class PatientRepository : IRepository<string, Patient>
+    public class PatientRepository : Repository< Patient,int>
     {
-        private readonly AuthenticationContext _context;
-
-        public PatientRepository(AuthenticationContext context)
+        public PatientRepository(AuthenticationContext Context)
         {
-            _context = context;
+            _context = Context;
         }
-        public async Task<Patient> Add(Patient entity)
+        public async override Task<ICollection<Patient>> Get()
         {
-            _context.Users.Add(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<Patient> Delete(string key)
-        {
-            var user = await Get(key);
-            if (user == null)
+            if (_context.Patients.Count() == 0)
             {
-                throw new Exception("User not found");
+                throw new Exception("No entities found");
             }
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return user;
+            return await _context.Patients.ToListAsync();
         }
 
-        public async Task<Patient> Get(string key)
+        public async override Task<Patient> Get(int key)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == key);
-            if (user == null)
+            var patient = _context.Patients.Find(key);
+            if (patient == null)
             {
-                throw new Exception("User not found");
+                throw new Exception("Entity not found");
             }
-            return user;
+            return patient;
         }
 
-        public async Task<ICollection<Patient>> GetAll()
-        {
-            var users = _context.Users;
-            if (users.Count() == 0)
-                throw new Exception("No users found");
-            return await users.ToListAsync();
-        }
-
-        public async Task<Patient> Update(Patient entity)
-        {
-            var user = await Get(entity.Username);
-            if (user == null)
-            {
-                throw new Exception("User not found");
-            }
-            _context.Users.Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
+      
     }
+
 }

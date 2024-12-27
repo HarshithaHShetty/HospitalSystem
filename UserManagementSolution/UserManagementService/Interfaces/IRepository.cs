@@ -1,12 +1,12 @@
 ﻿namespace UserManagementService.Interfaces
 
 {
-    public interface IRepository<K, T> where T : class
+    public interface IRepository<T, K> where T : class
     {
-        Task<T> Get(K key);
-        Task<ICollection<T>> GetAll();
         Task<T> Add(T entity);
-        Task<T> Update(T entity);
+        Task<ICollection<T>> Get();
+        Task<T> Get(K key);
+        Task<T> Update(K key, T entity);
         Task<T> Delete(K key);
     }
 }
